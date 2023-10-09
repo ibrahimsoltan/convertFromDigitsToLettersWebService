@@ -1,0 +1,3 @@
+type Query {
+    getNumber(number: Float!): String
+}
