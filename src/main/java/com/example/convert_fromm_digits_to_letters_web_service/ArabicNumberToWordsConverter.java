@@ -160,6 +160,9 @@ public class ArabicNumberToWordsConverter {
         if (ones > 0) {
             result = numberWordsMapUpToTwenty.get(ones) + " و " + result + " جنيهاً";
         }
+        else {
+            result += " جنيهاً";
+        }
 
         return result;
     }
