@@ -1,6 +1,7 @@
 package com.example.convert_fromm_digits_to_letters_web_service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ public class ArabicNumberToWordsConverter {
     private final HashMap<Long, String> numberWordsMapUpToThousand;
 
     private final HashMap<Long, String> numberWordsMapUpToMillion;
+
     public ArabicNumberToWordsConverter() {
         numberWordsMapUpToTwenty = new HashMap<>();
 
@@ -91,13 +93,13 @@ public class ArabicNumberToWordsConverter {
         numberWordsMapUpToOne.put(18, "ثمانية عشر قرشاً");
         numberWordsMapUpToOne.put(19, "تسعة عشر قرشاً");
 
+
     }
 
     public String convert(BigDecimal  number) {
         BigDecimal[] divideAndRemainder = number.divideAndRemainder(BigDecimal.ONE);
         BigDecimal integerPart = divideAndRemainder[0];
         BigDecimal decimalPart = divideAndRemainder[1].multiply(new BigDecimal("100")).setScale(0, RoundingMode.HALF_UP);
-
         long integerPartLong = integerPart.longValue();
         int decimalPartInt = decimalPart.intValue();
 
@@ -118,6 +120,9 @@ public class ArabicNumberToWordsConverter {
         }
         else if (integerPartLong >= 1000000000 && integerPartLong <= 999999999999L) {
             integerPartStr = convertBillionsAndAbove(integerPartLong);
+        }
+        else if (integerPartLong >= 1000000000000L && integerPartLong <= 999999999999999L) {
+            integerPartStr = convertTrillionsAndAbove(integerPartLong);
         }
 
         String decimalPartStr = "";
@@ -323,9 +328,49 @@ public class ArabicNumberToWordsConverter {
         return result;
     }
 
+    private String convertTrillionsAndAbove(long number) {
+        long trillions = number / 1000000000000L;
+        long remainder = number % 1000000000000L;
+        String result = "";
+
+        if (trillions == 1) {
+            result = "تريليون";
+        } else if (trillions == 2) {
+            result = "تريليونان";
+        } else if (trillions > 2 && trillions < 11) {
+            result = numberWordsMapUpToTwenty.get(trillions) + " تريليونات";
+        } else if (trillions >= 11 && trillions < 100) {
+            result = convertTens(trillions);
+            if (result.contains("جنيهاً")) {
+                result = result.replace("جنيهاً", "تريليوناً");
+            } else {
+                result += " تريليوناً";
+            }
+        } else if (trillions >= 100 && trillions < 1000) {
+            result = convertHundreds(trillions);
+            if (result.contains("جنيهاً")) {
+                result = result.replace("جنيهاً", "تريليوناً");
+            } else {
+                result += " تريليوناً";
+            }
+        } else {
+            result = convert(BigDecimal.valueOf(trillions)) + " تريليوناً"; // For trillions >= 1000
+        }
+
+        if (remainder > 0) {
+            result = result + " و " + convert(BigDecimal.valueOf(remainder));
+        }
+        else {
+            result += " جنيهاً";
+        }
+        return result;
+    }
+
+
+
     public static void main(String[] args) {
         ArabicNumberToWordsConverter converter = new ArabicNumberToWordsConverter();
-        BigDecimal number = new BigDecimal("17.19");
+        BigDecimal number = new BigDecimal("524567898765432.23");
         String result = converter.convert(number);
         System.out.println("Result: " + result);
 
