@@ -1,3 +1,6 @@
+scalar BigDecimal
+
+
 type Query {
-    getNumber(number: Float!): String
+    getNumber(number: BigDecimal!): String
 }

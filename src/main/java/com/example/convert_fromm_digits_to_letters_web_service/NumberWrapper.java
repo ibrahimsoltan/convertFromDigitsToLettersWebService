@@ -1,15 +1,15 @@
 package com.example.convert_fromm_digits_to_letters_web_service;
 
+import java.math.BigDecimal;
 
 public class NumberWrapper {
-    private double number;
+    private BigDecimal number;
 
-    // Getters and setters
-    public double getNumber() {
+    public BigDecimal getNumber() {
         return number;
     }
 
-    public void setNumber(double number) {
+    public void setNumber(BigDecimal number) {
         this.number = number;
     }
 }

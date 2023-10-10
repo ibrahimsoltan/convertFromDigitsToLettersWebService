@@ -14,10 +14,9 @@ public class GetNumberController {
 
     @PostMapping("/getNumber")
     public String getNumber(@RequestBody NumberWrapper  wrapper) {
-        double  number = wrapper.getNumber();
-        BigDecimal number1 = new BigDecimal(number);
-        String result = converter.convert(number1);
+        BigDecimal number = wrapper.getNumber();  // Assuming NumberWrapper's getNumber() returns BigDecimal
+        String result = converter.convert(number);
         System.out.println("Result: " + result);
-        return  result;
+        return result;
     }
 }

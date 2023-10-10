@@ -36,6 +36,12 @@
 			<artifactId>graphql-java-tools</artifactId>
 			<version>11.0.1</version> <!-- Use the latest version that is compatible with your project -->
 		</dependency>
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-extended-scalars</artifactId>
+			<version>20.2</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
