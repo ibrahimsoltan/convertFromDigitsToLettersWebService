@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 
 public class ArabicNumberToWordsConverter {
+    String currency  ="جنيهاً مصرياً ";
 
     private  final   HashMap<Integer, String> numberWordsMapUpToOne;
     private final HashMap<Long, String> numberWordsMapUpToTwenty;
@@ -130,7 +131,7 @@ public class ArabicNumberToWordsConverter {
             decimalPartStr = convertDecimalToWords(decimalPartInt);
         }
         else {
-            decimalPartStr = "جنيهاً";
+            decimalPartStr = "currency";
         }
 
 
@@ -140,16 +141,16 @@ public class ArabicNumberToWordsConverter {
 
     private String convertOneToTwenty(long number) {
         if (number == 2) {
-            return "جنيهان ";
+            return "جنيهان مصريان ";
         }
         else if (number == 1) {
-            return "جنيه ";
+            return "جنيه مصرياً ";
         }
         else if (number > 2 && number < 11) {
-            return numberWordsMapUpToTwenty.get(number) + " جنيهات ";
+            return numberWordsMapUpToTwenty.get(number) + "جنيهات مصرية ";
         }
         else {
-            return numberWordsMapUpToTwenty.get(number) + " جنيهاً ";
+            return numberWordsMapUpToTwenty.get(number) +  currency ;
         }
     }
 
@@ -158,13 +159,13 @@ public class ArabicNumberToWordsConverter {
         long ones = number % 10;
         String result = tens == 2 ? "عشرون" : numberWordsMapUpToHundred.get(tens * 10);
         if (ones > 0) {
-            result = numberWordsMapUpToTwenty.get(ones) + " و " + result + " جنيهاً";
+            result = numberWordsMapUpToTwenty.get(ones) + " و " + result + " " +currency;
         }
         else {
-            result += " جنيهاً";
+            result += currency;
         }
 
-        return result;
+        return result + " ";
     }
 
     private String convertTensForDecimal(long number) {
@@ -184,7 +185,7 @@ public class ArabicNumberToWordsConverter {
         if (decimalPart >= 1 && decimalPart <= 19) {
             result = numberWordsMapUpToOne.get(decimalPart);
         } else if (decimalPart > 19 && decimalPart <= 99) {
-            result = convertTensForDecimal(decimalPart) + " قرشاً لا غير";
+            result = convertTensForDecimal(decimalPart) + " قرشاً لا غير ";
         }
         return result;
     }
@@ -197,7 +198,7 @@ public class ArabicNumberToWordsConverter {
             result = result + " و " + convert(BigDecimal.valueOf(remainder));
         }
         else {
-            result += " جنيهاً";
+            result += currency;
 
         }
         return result;
@@ -215,9 +216,9 @@ public class ArabicNumberToWordsConverter {
         }
         if(thousands > 10 && thousands < 100){
             result = convertTens(thousands);
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "ألفاً");
+                result = result.replace(currency, "ألفاً");
             }
             else {
                 result += " ألفاً";
@@ -225,9 +226,9 @@ public class ArabicNumberToWordsConverter {
         }
         if(thousands > 100 && thousands < 1000){
             result = convertHundreds(thousands);
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "ألفاً");
+                result = result.replace(currency, "ألفاً");
             }
             else {
                 result += " ألفاً";
@@ -241,7 +242,7 @@ public class ArabicNumberToWordsConverter {
             result = result + " و " + convert(BigDecimal.valueOf(remainder));
         }
         else {
-            result += " جنيهاً";
+            result += currency;
 
         }
 
@@ -259,18 +260,18 @@ public class ArabicNumberToWordsConverter {
             result = numberWordsMapUpToTwenty.get(millions) + " ملايين";
         } else if (millions >= 11 && millions < 100) {
             result = convertTens(millions) ;
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "مليوناً");
+                result = result.replace(currency, "مليوناً");
             }
             else {
                 result += " مليوناً";
             }
         } else if (millions >= 100 && millions < 1000) {
             result = convertHundreds(millions) ;
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "مليوناً");
+                result = result.replace(currency, "مليوناً");
             }
             else {
                 result += " مليوناً";
@@ -283,7 +284,7 @@ public class ArabicNumberToWordsConverter {
             result = result + " و " + convert(BigDecimal.valueOf(remainder));
         }
         else {
-            result += " جنيهاً";
+            result += currency;
 
         }
         return result;
@@ -300,9 +301,9 @@ public class ArabicNumberToWordsConverter {
             result = numberWordsMapUpToTwenty.get(billions) + " مليارات";
         } else if (billions >= 11 && billions < 100) {
             result = convertTens(billions);
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "ملياراً");
+                result = result.replace(currency, "ملياراً");
             }
             else {
                 result += " ملياراً";
@@ -310,9 +311,9 @@ public class ArabicNumberToWordsConverter {
 
         } else if (billions >= 100 && billions < 1000) {
             result = convertHundreds(billions);
-            if (result.contains("جنيهاً"))
+            if (result.contains(currency))
             {
-                result = result.replace("جنيهاً", "ملياراً");
+                result = result.replace(currency, "ملياراً");
             }
             else {
                 result += " ملياراً";
@@ -344,15 +345,15 @@ public class ArabicNumberToWordsConverter {
             result = numberWordsMapUpToTwenty.get(trillions) + " تريليونات";
         } else if (trillions >= 11 && trillions < 100) {
             result = convertTens(trillions);
-            if (result.contains("جنيهاً")) {
-                result = result.replace("جنيهاً", "تريليوناً");
+            if (result.contains(currency)) {
+                result = result.replace(currency, "تريليوناً");
             } else {
                 result += " تريليوناً";
             }
         } else if (trillions >= 100 && trillions < 1000) {
             result = convertHundreds(trillions);
-            if (result.contains("جنيهاً")) {
-                result = result.replace("جنيهاً", "تريليوناً");
+            if (result.contains(currency)) {
+                result = result.replace(currency, "تريليوناً");
             } else {
                 result += " تريليوناً";
             }
@@ -364,7 +365,7 @@ public class ArabicNumberToWordsConverter {
             result = result + " و " + convert(BigDecimal.valueOf(remainder));
         }
         else {
-            result += " جنيهاً";
+            result += " " + currency;
         }
         return result;
     }
